@@ -47,11 +47,11 @@ MENU_NOTIFY_PORT = 7005
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
-        vol.Optional("control_port", default=CONTROL_PORT): cv.control_port,
-        vol.Optional("notify_port", default=NOTIFY_PORT): cv.notify_port,
-        vol.Optional("info_port", default=INFO_PORT): cv.info_port,
-        vol.Optional("setup_port_tcp", default=SETUP_PORT_TCP): cv.setup_port_tcp,
-        vol.Optional("menu_notify_port", default=MENU_NOTIFY_PORT): cv.menunotify_port
+        vol.Optional("control_port", default=CONTROL_PORT): cv.port,
+        vol.Optional("notify_port", default=NOTIFY_PORT): cv.port,
+        vol.Optional("info_port", default=INFO_PORT): cv.port,
+        vol.Optional("setup_port_tcp", default=SETUP_PORT_TCP): cv.port,
+        vol.Optional("menu_notify_port", default=MENU_NOTIFY_PORT): cv.port
     }
 )
 

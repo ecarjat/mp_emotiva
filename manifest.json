@@ -1,0 +1,6 @@
+  {
+    "domain": "emotiva",
+    "name": "Emotiva receivers",
+    "documentation": "https://www.home-assistant.io/integrations/emotiva",
+    "codeowners": []
+  }

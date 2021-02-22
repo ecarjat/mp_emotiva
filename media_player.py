@@ -151,7 +151,7 @@ class EmotivaDevice(MediaPlayerEntity):
     @property
     def state(self):
         """Return the state of the device."""
-        _LOGGER.info("Power state is: " + self._pwstate)
+        _LOGGER.info("Power state is: " + str(self._pwstate))
         if self._pwstate is False:
             return STATE_OFF
         if self._pwstate is True:

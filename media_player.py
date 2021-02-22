@@ -134,6 +134,7 @@ class EmotivaDevice(MediaPlayerEntity):
     
     def update(self):
         """Get the latest details from the device."""
+        _LOGGER.info("Running update")
         recv = self._recv
         self._name = recv.name
         self._source = recv.source

@@ -138,9 +138,9 @@ class EmotivaDevice(MediaPlayerEntity):
         self._name = recv.name
         self._source = recv.source
         self._source_list = recv.sources
-        self._pwstate = recv.power()
-        self._muted = recv.mute()
-        self._volume = recv.volume()
+        self._pwstate = recv.power
+        self._muted = recv.mute
+        self._volume = recv.volume
         return True
 
     @property

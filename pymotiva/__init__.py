@@ -246,6 +246,11 @@ class Emotiva(object):
     if self._current_state['volume'] != None:
       return float(self._current_state['volume'])
     return None
+  
+  @volume.setter
+  def volume(self, value):
+    msg = self.format_request('emotivaControl', [('set_volume', {'value': str(value)})])
+    self._send_request(msg)
 
   def _volume_step(self, incr):
     # The XMC-1 with firmware version <= 3.1a will not change the volume unless

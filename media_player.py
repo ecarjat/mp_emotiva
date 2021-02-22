@@ -18,8 +18,7 @@ from homeassistant.components.media_player.const import (
 from homeassistant.const import (
     CONF_HOST,
     STATE_ON,
-    STATE_OFF,
-    CONF_DEVICE_CLASS
+    STATE_OFF
 )
 import homeassistant.helpers.config_validation as cv
 import homeassistant.util.dt as dt_util
@@ -48,7 +47,6 @@ MENU_NOTIFY_PORT = 7005
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
-        vol.Required(CONF_DEVICE_CLASS): cv.string,
         vol.Optional("control_port", default=CONTROL_PORT): cv.port,
         vol.Optional("notify_port", default=NOTIFY_PORT): cv.port,
         vol.Optional("info_port", default=INFO_PORT): cv.port,

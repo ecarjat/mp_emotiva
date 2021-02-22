@@ -136,11 +136,11 @@ class EmotivaDevice(MediaPlayerEntity):
         """Get the latest details from the device."""
         _LOGGER.info("Running update")
         recv = self._recv
+        recv.connect()
         self._name = recv.name
         self._source = recv.source
         self._source_list = recv.sources
         self._pwstate = recv.power
-        _LOGGER.info("Power state is: " + str(self._pwstate))
         self._muted = recv.mute
         self._volume = recv.volume
         return True

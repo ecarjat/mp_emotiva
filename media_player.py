@@ -118,7 +118,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
         receiver = None
 
     if receiver:
-            add_entities(EmotivaDevice(receiver), True)
+            add_entities([EmotivaDevice(receiver)], True)
     else:
         known_hosts.remove(reg_host)
 
@@ -130,7 +130,7 @@ class EmotivaDevice(MediaPlayerEntity):
         """Initialize the Emotiva device."""
         self._recv = recv
         recv.connect()
-        self.update()
+
     
     def update(self):
         """Get the latest details from the device."""

@@ -19,6 +19,7 @@ from homeassistant.const import (
     CONF_HOST,
     STATE_ON,
     STATE_OFF,
+    CONF_DEVICE_CLASS
 )
 import homeassistant.helpers.config_validation as cv
 import homeassistant.util.dt as dt_util
@@ -47,6 +48,7 @@ MENU_NOTIFY_PORT = 7005
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
+        vol.Required(CONF_DEVICE_CLASS): cv.string,
         vol.Optional("control_port", default=CONTROL_PORT): cv.port,
         vol.Optional("notify_port", default=NOTIFY_PORT): cv.port,
         vol.Optional("info_port", default=INFO_PORT): cv.port,
@@ -134,7 +136,6 @@ class EmotivaDevice(MediaPlayerEntity):
     
     def update(self):
         """Get the latest details from the device."""
-        _LOGGER.info("Running update")
         recv = self._recv
         recv.connect()
         self._name = recv.name
@@ -153,7 +154,6 @@ class EmotivaDevice(MediaPlayerEntity):
     @property
     def state(self):
         """Return the state of the device."""
-        _LOGGER.info("Power state is: " + str(self._pwstate))
         if self._pwstate is False:
             return STATE_OFF
         if self._pwstate is True:

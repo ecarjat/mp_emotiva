@@ -183,9 +183,15 @@ class EmotivaDevice(MediaPlayerEntity):
         """Return the current input source."""
         return self._source
 
+    def turn_on(self):
+        """Turn the media player on."""
+        self._recv.power = True
+        self._pwstate = True
+
     def turn_off(self):
         """Turn off media player."""
         self._recv.power = False
+        self._pwstate = False
 
     def volume_up(self):
         """Volume up media player."""
@@ -206,9 +212,7 @@ class EmotivaDevice(MediaPlayerEntity):
         """Mute (true) or unmute (false) media player."""
         self._recv.mute = mute
 
-    def turn_on(self):
-        """Turn the media player on."""
-        self._recv.power = True
+
 
     def select_source(self, source):
         """Select input source."""

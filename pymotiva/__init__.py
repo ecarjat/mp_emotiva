@@ -165,7 +165,7 @@ class Emotiva(object):
     self._update_cb = cb
 
   @classmethod
-  def discover(cls):
+  def discover(cls, version = 2):
     resp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     resp_sock.bind(('', cls.DISCOVER_RESP_PORT))
     resp_sock.settimeout(0.5)
@@ -173,8 +173,10 @@ class Emotiva(object):
     req_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     req_sock.bind(('', 0))
     req_sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-
-    req = cls.format_request('emotivaPing', [])
+    if version == 3:
+      req = cls.format_request('emotivaPing', {}, {'protocol': "3.0"})
+    else:
+      req = cls.format_request('emotivaPing')
     req_sock.sendto(req, ('<broadcast>', cls.DISCOVER_REQ_PORT))
 
     devices = []
@@ -196,18 +198,19 @@ class Emotiva(object):
     return root
 
   @classmethod
-  def format_request(cls, pkt_type, req):
+  def format_request(cls, pkt_type, req = {}, pkt_attrs = {}):
     """
-
     req is a list of 2-element tuples with first element being the command,
     and second being a dict of parameters. E.g.
     ('power_on', {'value': "0"})
+
+    pkt_attrs is a dictionary containing element attributes. E.g.
+    {'protocol': "3.0"}
     """
     output = cls.XML_HEADER
     builder = ET.TreeBuilder()
-    builder.start(pkt_type,{})
+    builder.start(pkt_type,pkt_attrs)
     for cmd, params in req:
-      print cmd, params
       builder.start(cmd, params) 
       builder.end(cmd)
     builder.end(pkt_type)

@@ -4,7 +4,7 @@ import math
 import socket
 import xml.etree.ElementTree as ET
 
-import pymotiva
+from custom_components.emotiva import pymotiva
 import voluptuous as vol
 
 from homeassistant.components.media_player import PLATFORM_SCHEMA, MediaPlayerEntity

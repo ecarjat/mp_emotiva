@@ -161,7 +161,10 @@ class EmotivaDevice(MediaPlayerEntity):
     @property
     def volume_level(self):
         """Volume level of the media player (0..1)."""
-        return math.pow(10,self._volume/40.0) 
+        if self._volume is not None:
+            return math.pow(10,self._volume/40.0)
+        else:
+            return 0
 
     @property
     def is_volume_muted(self):

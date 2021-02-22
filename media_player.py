@@ -174,11 +174,6 @@ class EmotivaDevice(MediaPlayerEntity):
         return sorted(list(self._source_list))
 
     @property
-    def media_title(self):
-        """Return the current media info."""
-        return self._mediainfo
-
-    @property
     def supported_features(self):
         """Flag media player features that are supported."""
         return SUPPORTED_FEATURES

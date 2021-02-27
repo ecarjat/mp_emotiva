@@ -57,7 +57,7 @@ class EmotivaNotifier(threading.Thread):
         with self._lock:
           sock = s
         data, (ip, port) = sock.recvfrom(4096)
-        _LOGGER.debug("Got data %s from %s:%d" % (data, ip, port))
+        _LOGGER.info("Got data %s from %s:%d" % (data, ip, port))
         with self._lock:
           cb = self._devs[ip]
         cb(data)

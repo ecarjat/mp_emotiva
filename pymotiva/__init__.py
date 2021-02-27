@@ -84,7 +84,7 @@ class Emotiva(object):
     self._setup_port_tcp = None
     self._ctrl_sock = None
     self._update_cb = None
-    self._modes = {'stereo', 'direct', 'dolby', 'dts', 'all_stereo', 'auto', 'reference_stereo', 'surround_mode'}
+    self._modes = ('stereo', 'direct', 'dolby', 'dts', 'all_stereo', 'auto', 'reference_stereo', 'surround_mode')
     self._events = events
 
     # current state
@@ -303,6 +303,11 @@ class Emotiva(object):
         [('source_%d' % self._sources[val], {'value': '0'})])
     self._send_request(msg)
 
+  
+  @property
+  def modes(self):
+    return self._modes
+  
   @property
   def mode(self):
     return self._current_state['mode']

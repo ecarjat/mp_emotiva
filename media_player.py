@@ -9,7 +9,8 @@ from homeassistant.components.media_player.const import (
     SUPPORT_TURN_ON,
     SUPPORT_VOLUME_MUTE,
     SUPPORT_VOLUME_SET,
-    SUPPORT_VOLUME_STEP
+    SUPPORT_VOLUME_STEP,
+    SUPPORT_SELECT_SOUND_MODE
 )
 from homeassistant.const import (
     CONF_HOST,
@@ -31,6 +32,7 @@ SUPPORT_EMOTIVA = (
     | SUPPORT_VOLUME_MUTE
     | SUPPORT_SELECT_SOURCE
     | SUPPORT_VOLUME_STEP
+    | SUPPORT_SELECT_SOUND_MODE
 )
 
 
@@ -128,7 +130,7 @@ class EmotivaDevice(MediaPlayerEntity):
     @property
     def sound_mode_list(self):
         """List of available sound modes."""
-        return None
+        return sorted(list(self._emo.sources))
 
     def select_sound_mode(self, sound_mode):
         """Select sound mode."""

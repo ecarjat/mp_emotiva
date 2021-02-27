@@ -86,7 +86,14 @@ class Emotiva(object):
     self._setup_port_tcp = None
     self._ctrl_sock = None
     self._update_cb = None
-    self._modes = ('stereo', 'direct', 'dolby', 'dts', 'all_stereo', 'auto', 'reference_stereo', 'surround_mode')
+    self._modes = {"Stereo" : 'stereo', 
+                  "Direct": 'direct',
+                  "Dolby": 'dolby',
+                  "DTS": 'dts', 
+                  "All Stereo" : 'all_stereo',
+                  "Auto":  'auto', 
+                  "Reference Stereo" :'reference_stereo', 
+                  "Surround": 'surround_mode'}
     self._events = events
 
     # current state
@@ -308,7 +315,7 @@ class Emotiva(object):
   
   @property
   def modes(self):
-    return self._modes
+    return tuple(self._modes.keys())
   
   @property
   def mode(self):
@@ -318,5 +325,8 @@ class Emotiva(object):
   def mode(self, val):
     if val not in self._modes:
       raise InvalidModeError('Mode "%s" does not exist' % val)
-    msg = self.format_request('emotivaControl',[(val,  {'value': '0'})])
+    elif self._modes[val] is None:
+      raise InvalidModeError('Mode "%s" has bad value (%s)' % (
+          val, self._modes[val]))
+    msg = self.format_request('emotivaControl',[(self._modes[val],  {'value': '0'})])
     self._send_request(msg)

@@ -55,6 +55,10 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     }
 )
 
+MODES = (
+    
+)
+
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Emotiva platform."""
 
@@ -185,6 +189,19 @@ class EmotivaDevice(MediaPlayerEntity):
     def source(self):
         """Return the current input source."""
         return self._source
+
+    @property
+    def sound_mode(self):
+        """Name of the current sound mode."""
+        return None
+
+    @property
+    def sound_mode_list(self):
+        """List of available sound modes."""
+        return None
+
+    def select_sound_mode(self, sound_mode):
+        """Select sound mode."""
 
     def turn_on(self):
         """Turn the media player on."""

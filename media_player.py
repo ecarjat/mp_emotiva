@@ -55,11 +55,15 @@ class EmotivaDevice(MediaPlayerEntity):
         self._name = '%s %s' % (self._emo.name, self._emo.model)
         self._min_volume = -96.0
         self._max_volume = 11
-        self._emo.set_update_cb(lambda: self.update_ha_state())
+        self._emo.set_update_cb(lambda: self.schedule_update_ha_state())
 
     def update(self):
-        self._emo.connect()
+        #self._emo.connect()
         return True
+
+    @property
+    def should_poll():
+        return False
 
     @property
     def name(self):

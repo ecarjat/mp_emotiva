@@ -38,7 +38,6 @@ class EmotivaNotifier(threading.Thread):
     self.start()
 
   def register(self, ip, port, callback):
-
     with self._lock:
       if port not in self._socks_by_port:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -52,12 +51,15 @@ class EmotivaNotifier(threading.Thread):
   def run(self):
     _LOGGER.debug("Connected")
     while True:
+      if not self._socks_by_fileno:
+        continue
       readable, writable, exceptional = select.select(self._socks_by_fileno,[] , [])
+      print(readable)
       for s in readable:
         with self._lock:
-          sock = s
+          sock = self._socks_by_fileno[s]
         data, (ip, port) = sock.recvfrom(4096)
-        _LOGGER.info("Got data %s from %s:%d" % (data, ip, port))
+        _LOGGER.debug("Got data %s from %s:%d" % (data, ip, port))
         with self._lock:
           cb = self._devs[ip]
         cb(data)
@@ -161,7 +163,7 @@ class Emotiva(object):
         # fall through
       if val:
         self._current_state[elem.tag] = val
-        _LOGGER.info("Updated '%s' <- '%s'" % (elem.tag, val))
+        _LOGGER.debug("Updated '%s' <- '%s'" % (elem.tag, val))
       if elem.tag.startswith('input_'):
         num = elem.tag[6:]
         self._sources[val] = int(num)

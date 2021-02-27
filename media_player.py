@@ -58,7 +58,7 @@ class EmotivaDevice(MediaPlayerEntity):
         self._emo.set_update_cb(lambda: self.update_ha_state())
 
     def update(self):
-
+        self._emo.connect()
         return True
 
     @property

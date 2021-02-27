@@ -39,7 +39,7 @@ SUPPORT_EMOTIVA = (
 def setup_platform(hass, config, add_entities, discovery_info=None):
     """Set up the Emotiva platform."""
 
-    from custom_components.emotiva import pymotiva.Emotiva as Emotiva
+    from custom_components.emotiva.pymotiva import Emotiva
     add_entities(EmotivaDevice(Emotiva(ip, info))
                 for ip, info in Emotiva.discover())
 

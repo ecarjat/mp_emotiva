@@ -62,7 +62,7 @@ class EmotivaDevice(MediaPlayerEntity):
         return True
 
     @property
-    def should_poll():
+    def should_poll(self):
         return False
 
     @property

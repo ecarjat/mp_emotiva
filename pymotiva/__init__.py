@@ -161,7 +161,7 @@ class Emotiva(object):
         # fall through
       if val:
         self._current_state[elem.tag] = val
-        _LOGGER.debug("Updated '%s' <- '%s'" % (elem.tag, val))
+        _LOGGER.info("Updated '%s' <- '%s'" % (elem.tag, val))
       if elem.tag.startswith('input_'):
         num = elem.tag[6:]
         self._sources[val] = int(num)

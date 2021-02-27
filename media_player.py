@@ -48,7 +48,6 @@ class EmotivaDevice(MediaPlayerEntity):
     """Representation of an Emotiva device."""
 
     def __init__(self, emo):
-        """Initialize the Emotiva device."""
         """Initialize the Emotiva Receiver."""
         self._emo = emo
         self._emo.connect()

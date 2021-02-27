@@ -251,7 +251,7 @@ class Emotiva(object):
   @property
   def volume(self):
     if self._current_state['volume'] != None:
-      return float(self._current_state['volume'])
+      return float(self._current_state['volume'].replace(" ", ""))
     return None
 
   @volume.setter

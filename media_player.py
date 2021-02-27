@@ -127,19 +127,20 @@ class EmotivaDevice(MediaPlayerEntity):
     @property
     def sound_mode(self):
         """Name of the current sound mode."""
-        return None
+        return self._emo.mode
 
     @property
     def sound_mode_list(self):
         """List of available sound modes."""
-        return sorted(list(self._emo.sources))
+        return sorted(list(self._emo.modes))
 
     def select_sound_mode(self, sound_mode):
         """Select sound mode."""
+        self._emo.mode = sound_mode
 
     def set_volume_level(self, volume):
         """Set volume level, range 0..1."""
         if volume == 0:
-            self._recv.volume = -96
+            self._emo.volume = -96
         else:
-            self._recv.volume = 40.0 * math.log10(volume)
+            self._emo.volume = 40.0 * math.log10(volume)

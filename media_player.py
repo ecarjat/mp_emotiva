@@ -16,13 +16,8 @@ from homeassistant.const import (
     STATE_ON,
     STATE_OFF
 )
-import homeassistant.helpers.config_validation as cv
-import homeassistant.util.dt as dt_util
-
 
 _LOGGER = logging.getLogger(__name__)
-
-DEFAULT_NAME = "RMC-1"
 
 SUPPORT_EMOTIVA = (
     SUPPORT_TURN_ON

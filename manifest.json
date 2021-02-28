@@ -1,6 +1,9 @@
   {
     "domain": "emotiva",
+    "version": "0.0.1",
     "name": "Emotiva receivers",
-    "documentation": "https://www.home-assistant.io/integrations/emotiva",
-    "codeowners": []
+    "issue_tracker": "https://github.com/ecarjat/hass-emotiva/issues",
+    "documentation": "https://github.com/ecarjat/hass-emotiva/blob/main/README.md",
+    "requirements": ["pymotiva"],
+    "codeowners": ["@thecynic", "@ecarjat"]
   }

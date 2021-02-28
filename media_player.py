@@ -13,7 +13,6 @@ from homeassistant.components.media_player.const import (
     SUPPORT_SELECT_SOUND_MODE
 )
 from homeassistant.const import (
-    CONF_HOST,
     STATE_ON,
     STATE_OFF
 )

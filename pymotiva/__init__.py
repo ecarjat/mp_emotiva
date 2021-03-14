@@ -208,9 +208,13 @@ class Emotiva(object):
   @classmethod
   def _parse_response(cls, data):
     _LOGGER.debug(data)
-    data_lines = data.decode('utf-8').split('\n')
-    data_joined = ''.join([x.strip() for x in data_lines])
-    root = ET.fromstring(data_joined)
+    try: 
+      data_lines = data.decode('utf-8').split('\n')
+      data_joined = ''.join([x.strip() for x in data_lines])
+      root = ET.fromstring(data_joined)
+    except ET.ParseError:
+      _LOGGER.error("Malformed XML" + data_lines)
+      root = ""
     return root
 
   @classmethod

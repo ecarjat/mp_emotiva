@@ -213,7 +213,8 @@ class Emotiva(object):
       data_joined = ''.join([x.strip() for x in data_lines])
       root = ET.fromstring(data_joined)
     except ET.ParseError:
-      _LOGGER.error("Malformed XML" + data_lines)
+      _LOGGER.error("Malformed XML")
+      _LOGGER.error(data_lines)
       root = ""
     return root
 

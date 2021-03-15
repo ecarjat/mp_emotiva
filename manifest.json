@@ -4,6 +4,6 @@
     "name": "Emotiva receivers",
     "issue_tracker": "https://github.com/ecarjat/hass-emotiva/issues",
     "documentation": "https://github.com/ecarjat/hass-emotiva/blob/main/README.md",
-    "requirements": ["pymotiva"],
+    "requirements": ["pymotiva", "lxml"],
     "codeowners": ["@thecynic", "@ecarjat"]
   }

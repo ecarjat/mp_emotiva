@@ -7,8 +7,8 @@ import logging
 import select
 import socket
 import threading
-import time
-import xml.etree.ElementTree as ET
+#import xml.etree.ElementTree as ET
+from lxml import etree
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -209,12 +209,11 @@ class Emotiva(object):
   def _parse_response(cls, data):
     _LOGGER.debug(data)
     try: 
-      data_lines = data.decode('utf-8').split('\n')
-      data_joined = ''.join([x.strip() for x in data_lines])
-      root = ET.fromstring(data_joined)
-    except ET.ParseError:
+      parser = etree.XMLParser(ns_clean=True, recover = True)
+      root = etree.XML(data, parser)
+    except etree.ParseError:
       _LOGGER.error("Malformed XML")
-      _LOGGER.error(data_lines)
+      _LOGGER.error(data)
       root = ""
     return root
 
@@ -229,14 +228,14 @@ class Emotiva(object):
     {'protocol': "3.0"}
     """
     output = cls.XML_HEADER
-    builder = ET.TreeBuilder()
+    builder = etree.TreeBuilder()
     builder.start(pkt_type,pkt_attrs)
     for cmd, params in req:
       builder.start(cmd, params)
       builder.end(cmd)
     builder.end(pkt_type)
     pkt = builder.close()
-    return output + ET.tostring(pkt)
+    return output + etree.tostring(pkt)
 
   @property
   def name(self):

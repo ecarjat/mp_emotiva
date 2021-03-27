@@ -4,10 +4,10 @@ __author__ = "Dima Zavin"
 __copyright__ = "Copyright 2016, Dima Zavin"
 
 import logging
+from os import name
 import select
 import socket
 import threading
-#import xml.etree.ElementTree as ET
 from lxml import etree
 
 _LOGGER = logging.getLogger(__name__)
@@ -54,7 +54,6 @@ class EmotivaNotifier(threading.Thread):
       if not self._socks_by_fileno:
         continue
       readable, writable, exceptional = select.select(self._socks_by_fileno,[] , [])
-      print(readable)
       for s in readable:
         with self._lock:
           sock = self._socks_by_fileno[s]
@@ -63,7 +62,6 @@ class EmotivaNotifier(threading.Thread):
         with self._lock:
           cb = self._devs[ip]
         cb(data)
-
 
 class Emotiva(object):
   XML_HEADER = '<?xml version="1.0" encoding="utf-8"?>'.encode('utf-8')
@@ -86,18 +84,19 @@ class Emotiva(object):
     self._setup_port_tcp = None
     self._ctrl_sock = None
     self._update_cb = None
-    self._modes = {"Stereo" : 'stereo', 
-                  "Direct": 'direct',
-                  "Dolby": 'dolby',
-                  "DTS": 'dts', 
-                  "All Stereo" : 'all_stereo',
-                  "Auto":  'auto', 
-                  "Reference Stereo" :'reference_stereo', 
-                  "Surround": 'surround_mode'}
+    self._modes = {"Stereo" :           ['stereo', 'mode_stereo', True],
+                  "Direct":             ['direct', 'mode_direct', True],
+                  "Dolby Surround":     ['dolby', 'mode_dolby', True],
+                  "DTS":                ['dts', 'mode_dts', True], 
+                  "All Stereo" :        ['all_stereo', 'mode_all_stereo', True],
+                  "Auto":               ['auto', 'mode_auto', True],
+                  "Reference Stereo" :  ['reference_stereo', 'mode_ref_stereo',True],
+                  "Surround":           ['surround_mode', 'mode_surround', True]}
     self._events = events
 
     # current state
     self._current_state = dict(((ev, None) for ev in self._events))
+    self._current_state.update(dict(((m[1], None) for m in self._modes.values())))
     self._sources = {}
     self._muted = False
 
@@ -159,8 +158,15 @@ class Emotiva(object):
         continue
       val = (elem.get('value') or '').strip()
       visible = (elem.get('visible') or '').strip()
-      if ((elem.tag.startswith('input_') or elem.tag.startswith('mode_'))
-          and visible != "true"):
+      #update mode status
+      if (elem.tag.startswith('mode_') and visible != "true"):
+        _LOGGER.debug(' %s is no longer visible' % elem.tag)
+        for v in self._modes.items():
+          if(v[1][1] == elem.tag):
+            v[1][2] = False
+            self._modes.update({v[0]: v[1]})
+      #do not 
+      if (elem.tag.startswith('input_') and visible != "true"):
         continue
       if elem.tag == 'volume':
         if val == 'Mute':
@@ -319,7 +325,8 @@ class Emotiva(object):
   
   @property
   def modes(self):
-    return tuple(self._modes.keys())
+    #we return only the modes that are active
+    return tuple(dict(filter(lambda elem: elem[1][2] == True, self._modes.items())).keys())
   
   @property
   def mode(self):
@@ -329,8 +336,8 @@ class Emotiva(object):
   def mode(self, val):
     if val not in self._modes:
       raise InvalidModeError('Mode "%s" does not exist' % val)
-    elif self._modes[val] is None:
+    elif self._modes[val][0] is None:
       raise InvalidModeError('Mode "%s" has bad value (%s)' % (
-          val, self._modes[val]))
-    msg = self.format_request('emotivaControl',[(self._modes[val],  {'value': '0'})])
+          val, self._modes[val][0]))
+    msg = self.format_request('emotivaControl',[(self._modes[val][0],  {'value': '0'})])
     self._send_request(msg)

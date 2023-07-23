@@ -1,0 +1,9 @@
+{
+    "name": "Emotiva RMC-1L media player",
+    "hacs": "1.32.0",
+    "domains": [
+        "media_player"
+    ],
+    "homeassistant": "2023.7.3",
+    "iot_class": "Local Polling"
+}

@@ -243,6 +243,12 @@ class Emotiva(object):
     pkt = builder.close()
     return output + etree.tostring(pkt)
 
+  def update(self):
+    msg = self.format_request('emotivaUpdate',
+                              [(ev, {}) for ev in self.NOTIFY_EVENTS],
+                              {'protocol':"3.0"} if self._proto_ver == 3 else {})
+    self._send_request(msg, ack=True)
+
   @property
   def name(self):
     return self._name

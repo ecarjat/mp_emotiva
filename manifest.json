@@ -1,6 +1,6 @@
   {
     "domain": "emotiva",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "name": "Emotiva receivers",
     "issue_tracker": "https://github.com/ecarjat/hass-emotiva/issues",
     "documentation": "https://github.com/ecarjat/hass-emotiva/blob/main/README.md",
